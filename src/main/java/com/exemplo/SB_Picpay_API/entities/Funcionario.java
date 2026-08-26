@@ -87,7 +87,7 @@ public class Funcionario {
         this.departamento = departamento;
     }
 
-    public void sgetSalario(Integer salario) {
+    public void setSalario(Integer salario) {
         this.salario = salario;
     }
 
