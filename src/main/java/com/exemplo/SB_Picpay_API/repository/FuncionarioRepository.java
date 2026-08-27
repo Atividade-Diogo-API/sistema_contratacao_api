@@ -70,25 +70,25 @@ public class FuncionarioRepository {
             return null;
         }
  
-        if (dados.getNome() != null) {
+        if (preenchido(dados.getNome())) {
             f.setNome(dados.getNome());
         }
-        if (dados.getCpf() != null) {
+        if (preenchido(dados.getCpf())) {
             f.setCpf(dados.getCpf());
         }
-        if (dados.getCargo() != null) {
+        if (preenchido(dados.getCargo())) {
             f.setCargo(dados.getCargo());
         }
-        if (dados.getDepartamento() != null) {
+        if (preenchido(dados.getDepartamento())) {
             f.setDepartamento(dados.getDepartamento());
         }
         if (dados.getSalario() != null) {
             f.setSalario(dados.getSalario());
         }
-        if (dados.getCidade() != null) {
+        if (preenchido(dados.getCidade())) {
             f.setCidade(dados.getCidade());
         }
-        if (dados.getStatus() != null) {
+        if (preenchido(dados.getStatus())) {
             f.setStatus(dados.getStatus());
         }
  
@@ -104,5 +104,9 @@ public class FuncionarioRepository {
  
         listaFuncionarios.remove(f);
         return true;
+    }
+
+    private boolean preenchido(String valor) {
+        return valor != null && !valor.isBlank();
     }
 }

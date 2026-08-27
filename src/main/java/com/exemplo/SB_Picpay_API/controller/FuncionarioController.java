@@ -28,12 +28,8 @@ public class FuncionarioController {
     @GetMapping
     public ResponseEntity<Object> listarFuncionarios() {
         List<Funcionario> listaFuncionarios = service.listarFuncionarios();
- 
-        if (listaFuncionarios.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpStatus.NOT_FOUND.toString());
-        } else {
-            return ResponseEntity.ok(listaFuncionarios);
-        }
+
+        return ResponseEntity.ok(listaFuncionarios);
     }
  
     @GetMapping("/{id}")

@@ -17,8 +17,8 @@ public class FuncionarioService {
         "EM_ANALISE", "APROVADO", "REPROVADO", "CONTRATADO"
     );
  
-    private static final int TAMANHO_CPF = 14;
-    private static final Pattern REGEX_CPF = Pattern.compile("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}");
+    private static final int TAMANHO_CPF = 11;
+    private static final Pattern REGEX_CPF = Pattern.compile("\\d{11}");
  
     @Autowired
     FuncionarioRepository repository;
@@ -76,7 +76,7 @@ public class FuncionarioService {
     }
  
     private boolean dadosValidosParaAtualizacaoParcial(Funcionario funcionario, Long idAtual) {
-        if (funcionario.getCpf() != null) {
+        if (preenchido(funcionario.getCpf())) {
             if (!cpfValido(funcionario.getCpf())) {
                 return false;
             }
@@ -87,10 +87,14 @@ public class FuncionarioService {
         if (funcionario.getSalario() != null && funcionario.getSalario() < 0) {
             return false;
         }
-        if (funcionario.getStatus() != null && !STATUS_VALIDOS.contains(funcionario.getStatus())) {
+        if (preenchido(funcionario.getStatus()) && !STATUS_VALIDOS.contains(funcionario.getStatus())) {
             return false;
         }
         return true;
+    }
+
+    private boolean preenchido(String valor) {
+        return valor != null && !valor.isBlank();
     }
  
     private boolean cpfValido(String cpf) {
