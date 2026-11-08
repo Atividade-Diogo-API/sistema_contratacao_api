@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Unit tests
+        run: ./mvnw -B test
+
+      - name: Integration tests
+        run: ./mvnw -B verify -DskipUTs -DskipE2E -DskipCoverage
+
+      - name: E2E tests
+        run: ./mvnw -B verify -DskipUTs -DskipIT -DskipCoverage
+
+      # reads the jacoco.exec accumulated by the three steps above
+      - name: Coverage gate (>= 90% line and branch)
+        run: ./mvnw -B verify -DskipTests
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
