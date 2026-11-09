@@ -37,6 +37,16 @@ class FuncionarioControllerTest {
     }
 
     @Test
+    void contarRetorna200ComATotalDeFuncionarios() {
+        when(service.listarFuncionarios()).thenReturn(List.of(f, f));
+
+        var resposta = controller.contarFuncionarios();
+
+        assertEquals(HttpStatus.OK, resposta.getStatusCode());
+        assertEquals(2, resposta.getBody());
+    }
+
+    @Test
     void buscarPorIdRetorna200OuNotFound() {
         when(service.buscarFuncionarioPorId(1L)).thenReturn(f);
         when(service.buscarFuncionarioPorId(2L)).thenReturn(null);

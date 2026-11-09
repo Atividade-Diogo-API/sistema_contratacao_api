@@ -31,6 +31,11 @@ public class FuncionarioController {
 
         return ResponseEntity.ok(listaFuncionarios);
     }
+
+    @GetMapping("/total")
+    public ResponseEntity<Integer> contarFuncionarios() {
+        return ResponseEntity.ok(service.listarFuncionarios().size());
+    }
  
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarFuncionarioPorId(@PathVariable Long id) {
