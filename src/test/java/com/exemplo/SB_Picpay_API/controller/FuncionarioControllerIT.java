@@ -56,6 +56,18 @@ class FuncionarioControllerIT {
     }
 
     @Test
+    void totalReflecteOsFuncionariosCadastrados() throws Exception {
+        cadastrar("10000000006");
+
+        String total = mvc.perform(get("/funcionarios/total")).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
+        String lista = mvc.perform(get("/funcionarios")).andReturn().getResponse().getContentAsString();
+
+        org.junit.jupiter.api.Assertions.assertEquals(
+            ((List<?>) JsonPath.read(lista, "$")).size(), Integer.parseInt(total));
+    }
+
+    @Test
     void cadastrarComDadosInvalidosOuCpfDuplicadoRetorna400() throws Exception {
         cadastrar("10000000002");
 
